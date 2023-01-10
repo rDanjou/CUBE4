@@ -1,0 +1,78 @@
+﻿@model IEnumerable<CUBE.Models.Salarie>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form action="/Salaries/Index" method="post">
+    <input type="text" name="searchQueryNom" />
+    <input type="text" name="searchQueryPrenom" />
+    <button type="submit">Search</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Prenom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelephoneFixe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelephonePortable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prenom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelephoneFixe)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelephonePortable)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.SalarieId">Modifier</a> |
+                        <a asp-action="Details" asp-route-id="@item.SalarieId">Détails</a> |
+                        <a asp-action="Delete" asp-route-id="@item.SalarieId">Supprimer</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.SalarieId">Détails</a>
+                    </td>
+                }
+            </tr>
+}
+    </tbody>
+</table>
